@@ -1,0 +1,19 @@
+{
+  "name": "complaint-portal-mern",
+  "private": true,
+  "workspaces": [
+    "front",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n front,backend -c \"cyan,magenta\" \"npm run dev -w front\" \"npm run dev -w backend\"",
+    "build": "npm run build -w front",
+    "start": "npm run start -w backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "mongodb": "4.1"
+  }
+}
