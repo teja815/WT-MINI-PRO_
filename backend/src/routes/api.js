@@ -109,6 +109,45 @@ apiRouter.post('/admin/issues/:id/approve', requireAuth, requireRole(['admin']),
   res.json({ issue })
 })
 
+apiRouter.post('/admin/issues/:id/reject', requireAuth, requireRole(['admin']), async (req, res) => {
+  const { id } = req.params
+  const { reason } = req.body || {}
+  const issue = await Issue.findById(id)
+  if (!issue) return res.status(404).send('Not found')
+  if (issue.status !== 'pending') return res.status(400).send('Not pending')
+
+  issue.status = 'rejected'
+  issue.rejectedBy = req.user._id
+  issue.rejectedAt = new Date()
+  issue.rejectionReason = typeof reason === 'string' ? reason.trim() : ''
+  await issue.save()
+
+  res.json({ issue })
+})
+
+apiRouter.get('/admin/stats', requireAuth, requireRole(['admin']), async (_req, res) => {
+  const [pending, approved, rejected, total] = await Promise.all([
+    Issue.countDocuments({ status: 'pending' }),
+    Issue.countDocuments({ status: 'approved' }),
+    Issue.countDocuments({ status: 'rejected' }),
+    Issue.countDocuments({})
+  ])
+  res.json({ stats: { pending, approved, rejected, total } })
+})
+
+apiRouter.get('/complaints', requireAuth, requireRole(['student', 'teacher', 'admin']), async (req, res) => {
+  const { status, category } = req.query
+  const filter = {}
+  if (status && ['pending', 'approved', 'rejected'].includes(status)) filter.status = status
+  if (category && ['classroom', 'mess', 'hostel'].includes(category)) filter.category = category
+
+  const issues = await Issue.find(filter)
+    .populate('createdBy', 'name email role')
+    .sort({ createdAt: -1 })
+    .limit(500)
+  res.json({ issues })
+})
+
 apiRouter.get('/faculty/approved', requireAuth, requireRole(['teacher', 'admin']), async (_req, res) => {
   const issues = await Issue.find({ status: 'approved' })
     .sort({ approvedAt: -1, updatedAt: -1 })

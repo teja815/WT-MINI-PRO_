@@ -12,20 +12,97 @@
   .btn {
     @apply inline-flex items-center justify-center rounded-md px-4 py-2 font-semibold transition-colors;
   }
+
   .btn-primary {
     @apply btn bg-brand-red text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand-yellow;
   }
+
   .btn-outline {
     @apply btn border border-brand-red text-brand-red hover:bg-brand-red hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-yellow;
   }
+
   .card {
     @apply rounded-xl border border-gray-200 bg-white shadow-sm;
   }
+
   .link {
     @apply text-brand-sky underline underline-offset-2 hover:text-sky-600;
   }
+
   .badge-yellow {
     @apply inline-flex items-center rounded-md bg-brand-yellow px-2 py-0.5 text-xs font-semibold text-black;
   }
 }
 
+/* Accessibility Modes */
+.a11y-high-contrast {
+  color-scheme: light;
+}
+
+.a11y-high-contrast * {
+  border-color: #000 !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+.a11y-high-contrast a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+}
+
+.a11y-high-contrast button {
+  border: 2px solid #000 !important;
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.a11y-high-contrast .bg-brand-red {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.a11y-dark-mode {
+  color-scheme: dark;
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+}
+
+.a11y-dark-mode * {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+.a11y-dark-mode a {
+  color: #64b5f6 !important;
+}
+
+.a11y-dark-mode .bg-white,
+.a11y-dark-mode .bg-red-50,
+.a11y-dark-mode .bg-sky-50,
+.a11y-dark-mode .bg-blue-50,
+.a11y-dark-mode .bg-amber-50 {
+  background-color: #2a2a2a !important;
+  border-color: #444 !important;
+}
+
+.a11y-dark-mode .border-gray-200,
+.a11y-dark-mode .border-gray-300 {
+  border-color: #444 !important;
+}
+
+/* Hide Images Mode */
+.a11y-hide-images img {
+  display: none !important;
+}
+
+.a11y-hide-images [role="img"] {
+  opacity: 0.2 !important;
+}
+
+/* Big Cursor Mode */
+.a11y-big-cursor {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="red" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="red"/></svg>'),
+    auto !important;
+}

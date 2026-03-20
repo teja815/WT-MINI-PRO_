@@ -81,6 +81,15 @@ apiRouter.post('/issues', requireAuth, requireRole(['student', 'teacher', 'admin
 })
 
 apiRouter.get('/my-stats', requireAuth, requireRole(['student', 'teacher', 'admin']), async (req, res) => {
+  if (req.user.role === 'admin') {
+    // For admin, return total pending and approved counts
+    const [totalPending, totalApproved] = await Promise.all([
+      Issue.countDocuments({ status: 'pending' }),
+      Issue.countDocuments({ status: 'approved' })
+    ])
+    return res.json({ stats: { totalPending, totalApproved, approvedByMe: 0, pendingByMe: 0 } })
+  }
+
   const [approvedByMe, pendingByMe] = await Promise.all([
     Issue.countDocuments({ createdBy: req.user._id, status: 'approved' }),
     Issue.countDocuments({ createdBy: req.user._id, status: 'pending' })
@@ -106,6 +115,23 @@ apiRouter.post('/admin/issues/:id/approve', requireAuth, requireRole(['admin']),
   issue.status = 'approved'
   issue.approvedBy = req.user._id
   issue.approvedAt = new Date()
+  await issue.save()
+
+  res.json({ issue })
+})
+
+apiRouter.post('/admin/issues/:id/reject', requireAuth, requireRole(['admin']), async (req, res) => {
+  const { id } = req.params
+  const { reason } = req.body
+
+  const issue = await Issue.findById(id)
+  if (!issue) return res.status(404).send('Not found')
+  if (issue.status !== 'pending') return res.status(400).send('Not pending')
+
+  issue.status = 'rejected'
+  issue.rejectedBy = req.user._id
+  issue.rejectedAt = new Date()
+  issue.rejectionReason = reason || 'No reason provided'
   await issue.save()
 
   res.json({ issue })

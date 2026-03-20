@@ -8,7 +8,10 @@ const IssueSchema = new mongoose.Schema(
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending', index: true },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
-    approvedAt: { type: Date, default: null }
+    approvedAt: { type: Date, default: null },
+    rejectedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    rejectedAt: { type: Date, default: null },
+    rejectionReason: { type: String, default: '' }
   },
   { timestamps: true }
 )

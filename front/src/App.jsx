@@ -9,6 +9,7 @@ import CategoryPage from './pages/CategoryPage'
 import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
 import FacultyPage from './pages/FacultyPage'
+import ComplaintDashboard from './pages/ComplaintDashboard'
 
 export default function App() {
   return (
@@ -52,6 +53,15 @@ export default function App() {
           />
 
           <Route
+            path="/complaints"
+            element={
+              <ProtectedRoute allowRoles={['student', 'teacher', 'admin']}>
+                <ComplaintDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/profile"
             element={
               <ProtectedRoute allowRoles={['student', 'teacher', 'admin']}>
@@ -84,4 +94,3 @@ export default function App() {
     </AuthProvider>
   )
 }
-
