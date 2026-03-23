@@ -72,9 +72,10 @@ export default function Sidebar() {
 
   // Students & Teachers: can submit complaints (category pages)
   if (role === 'student' || role === 'teacher') {
-    navItems.push({ to: '/classroom', label: 'Classroom', icon: <ClassroomIcon /> })
-    navItems.push({ to: '/mess', label: 'Mess', icon: <MessIcon /> })
-    navItems.push({ to: '/hostel', label: 'Hostel', icon: <HostelIcon /> })
+    navItems.push({ to: '/add-structured-complaint', label: 'New Grievance', icon: <ComplaintsIcon /> })
+    navItems.push({ to: '/classroom-grievance', label: 'Classroom', icon: <ClassroomIcon /> })
+    navItems.push({ to: '/mess-grievance', label: 'Mess', icon: <MessIcon /> })
+    navItems.push({ to: '/hostel-grievance', label: 'Hostel', icon: <HostelIcon /> })
   }
 
   // Teachers & Admins: can view complaint dashboard

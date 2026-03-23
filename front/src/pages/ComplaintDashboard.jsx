@@ -22,6 +22,12 @@ const statusBadge = {
   rejected: 'badge-red'
 }
 
+const categoryColor = {
+  classroom: 'text-blue-600',
+  mess: 'text-yellow-600',
+  hostel: 'text-red-600'
+}
+
 function ComplaintRow({ issue }) {
   return (
     <div className="card p-5 hover:shadow-md transition-shadow">
@@ -29,8 +35,12 @@ function ComplaintRow({ issue }) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <span className={statusBadge[issue.status] || 'badge-gray'}>{issue.status.toUpperCase()}</span>
-            <span className="badge-gray">{issue.category}</span>
             <span className="text-xs text-gray-400">{new Date(issue.createdAt).toLocaleString()}</span>
+          </div>
+          <div className={`text-sm font-bold mb-1 ${categoryColor[issue.category] || 'text-gray-600'}`}>
+            {issue.complaintPath && issue.complaintPath.length > 0 
+              ? issue.complaintPath.join(' > ') 
+              : issue.category.toUpperCase()}
           </div>
           <p className="text-sm text-gray-800 leading-relaxed">{issue.description}</p>
           <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">

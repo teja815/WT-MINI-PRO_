@@ -63,7 +63,7 @@ apiRouter.get('/issues', requireAuth, requireRole(['student', 'teacher', 'admin'
 })
 
 apiRouter.post('/issues', requireAuth, requireRole(['student', 'teacher', 'admin']), async (req, res) => {
-  const { category, description, photoUrl } = req.body || {}
+  const { category, description, photoUrl, complaintPath } = req.body || {}
   if (!['classroom', 'mess', 'hostel'].includes(category)) return res.status(400).send('Invalid category')
   if (!description || typeof description !== 'string' || description.trim().length < 10) {
     return res.status(400).send('Description must be at least 10 characters')
@@ -73,6 +73,7 @@ apiRouter.post('/issues', requireAuth, requireRole(['student', 'teacher', 'admin
     category,
     description: description.trim(),
     photoUrl: typeof photoUrl === 'string' ? photoUrl : '',
+    complaintPath: Array.isArray(complaintPath) ? complaintPath : [],
     status: 'pending',
     createdBy: req.user._id
   })

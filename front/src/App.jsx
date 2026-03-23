@@ -10,6 +10,14 @@ import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
 import FacultyPage from './pages/FacultyPage'
 import ComplaintDashboard from './pages/ComplaintDashboard'
+import AddStructuredComplaint from './pages/structured-flow/AddStructuredComplaint'
+import CategoryGrievance from './pages/structured-flow/CategoryGrievance'
+import ClassroomBlock from './pages/structured-flow/ClassroomBlock'
+import BlockFloors from './pages/structured-flow/BlockFloors'
+import FloorDetails from './pages/structured-flow/FloorDetails'
+import WashroomSelection from './pages/structured-flow/WashroomSelection'
+import ClassroomDesks from './pages/structured-flow/ClassroomDesks'
+import FinalComplaintForm from './pages/structured-flow/FinalComplaintForm'
 
 export default function App() {
   return (
@@ -27,27 +35,31 @@ export default function App() {
             }
           />
 
+          <Route path="/add-structured-complaint" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><AddStructuredComplaint /></ProtectedRoute>} />
+          <Route path="/hostel-grievance" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><CategoryGrievance category="Hostel" /></ProtectedRoute>} />
+          <Route path="/mess-grievance" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><CategoryGrievance category="Mess" /></ProtectedRoute>} />
+          <Route path="/classroom-grievance" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><ClassroomBlock /></ProtectedRoute>} />
+          <Route path="/classroom-grievance/:block" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><BlockFloors /></ProtectedRoute>} />
+          
+          <Route path="/ground-classes" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FloorDetails floorPrefix="g" /></ProtectedRoute>} />
+          <Route path="/first-classes" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FloorDetails floorPrefix="f" /></ProtectedRoute>} />
+          <Route path="/second-classes" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FloorDetails floorPrefix="s" /></ProtectedRoute>} />
+          <Route path="/third-classes" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FloorDetails floorPrefix="t" /></ProtectedRoute>} />
+
+          <Route path="/washroom-ff" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><WashroomSelection /></ProtectedRoute>} />
+          <Route path="/male-wash" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FinalComplaintForm hidePhotoUpload={false} /></ProtectedRoute>} />
+          <Route path="/female-wash" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><FinalComplaintForm hidePhotoUpload={true} /></ProtectedRoute>} />
+
+          <Route path="/gf-classroom" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><ClassroomDesks floorName="Ground Floor" /></ProtectedRoute>} />
+          <Route path="/ff-classroom" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><ClassroomDesks floorName="First Floor" /></ProtectedRoute>} />
+          <Route path="/sf-classroom" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><ClassroomDesks floorName="Second Floor" /></ProtectedRoute>} />
+          <Route path="/tf-classroom" element={<ProtectedRoute allowRoles={['student', 'teacher', 'admin']}><ClassroomDesks floorName="Third Floor" /></ProtectedRoute>} />
+          
           <Route
             path="/classroom"
             element={
               <ProtectedRoute allowRoles={['student', 'teacher', 'admin']}>
-                <CategoryPage category="classroom" title="Classroom Issues" />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mess"
-            element={
-              <ProtectedRoute allowRoles={['student', 'teacher', 'admin']}>
-                <CategoryPage category="mess" title="Mess Complaints" />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/hostel"
-            element={
-              <ProtectedRoute allowRoles={['student', 'teacher', 'admin']}>
-                <CategoryPage category="hostel" title="Hostel Issues" />
+                <FinalComplaintForm />
               </ProtectedRoute>
             }
           />

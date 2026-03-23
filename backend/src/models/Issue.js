@@ -11,7 +11,8 @@ const IssueSchema = new mongoose.Schema(
     approvedAt: { type: Date, default: null },
     rejectedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     rejectedAt: { type: Date, default: null },
-    rejectionReason: { type: String, default: '' }
+    rejectionReason: { type: String, default: '' },
+    complaintPath: { type: [String], default: [] }
   },
   { timestamps: true }
 )

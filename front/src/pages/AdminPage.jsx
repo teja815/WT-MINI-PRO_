@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { apiGet, apiPost } from '../lib/api'
 
+const categoryColor = {
+  classroom: 'text-blue-600',
+  mess: 'text-yellow-600',
+  hostel: 'text-red-600'
+}
+
 function AdminIssueCard({ issue, onApprove, onReject, busyId }) {
   const [showRejectModal, setShowRejectModal] = useState(false)
   const [reason, setReason] = useState('')
@@ -12,8 +18,12 @@ function AdminIssueCard({ issue, onApprove, onReject, busyId }) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="badge-yellow">{issue.category}</span>
               <span className="text-xs text-gray-400">{new Date(issue.createdAt).toLocaleString()}</span>
+            </div>
+            <div className={`text-sm font-bold mb-1 ${categoryColor[issue.category] || 'text-gray-600'}`}>
+              {issue.complaintPath && issue.complaintPath.length > 0 
+                ? issue.complaintPath.join(' > ') 
+                : issue.category.toUpperCase()}
             </div>
             <p className="text-sm text-gray-800 leading-relaxed">{issue.description}</p>
             <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">

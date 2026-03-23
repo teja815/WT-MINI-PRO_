@@ -46,7 +46,7 @@ export default function Header() {
             {/* Quick action based on role */}
             {role !== 'admin' && (
               <Link
-                to="/classroom"
+                to="/add-structured-complaint"
                 className="hidden sm:flex items-center gap-1.5 rounded-xl bg-brand-red px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-colors"
               >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
