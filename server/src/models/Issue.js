@@ -5,6 +5,13 @@ const IssueSchema = new mongoose.Schema(
     category: { type: String, enum: ['classroom', 'mess', 'hostel'], required: true, index: true },
     description: { type: String, required: true },
     photoUrl: { type: String, default: '' },
+    location: {
+      block: { type: String, default: '' },
+      floor: { type: String, default: '' },
+      room: { type: String, default: '' },
+      desk: { type: String, default: '' }
+    },
+    complaintPath: { type: [String], default: [] },
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending', index: true },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },

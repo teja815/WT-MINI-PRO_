@@ -32,11 +32,22 @@ export default function FinalComplaintForm({ hidePhotoUpload = false }) {
       if (file && !hidePhotoUpload) {
         photoUrl = await uploadIssuePhoto(file, { uid: firebaseUser.uid });
       }
+      
+      // Map complaintPath to location object based on structured flow
+      // Assuming pattern: [Category, Block, Floor, Room, Desk]
+      const locationObj = {
+        block: complaintPath[1] || '',
+        floor: complaintPath[2] || '',
+        room: complaintPath[3] || '',
+        desk: complaintPath[4] || ''
+      };
+
       await apiPost('/api/issues', { 
         category: rootCategory, 
         description: desc.trim(), 
         photoUrl,
-        complaintPath 
+        location: locationObj,
+        complaintPath // Sending this as well in case it's needed by other flows
       });
       setSuccess(true);
       setTimeout(() => {
